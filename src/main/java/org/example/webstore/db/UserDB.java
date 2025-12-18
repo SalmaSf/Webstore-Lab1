@@ -47,7 +47,6 @@ public class UserDB {
         }
     }
 
-    // Matches their createUser(User u)
     public static void createUser(User user) throws SQLException {
         String sql = "INSERT INTO user (username, password, role) VALUES (?, ?, ?)";
 
@@ -57,7 +56,6 @@ public class UserDB {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
 
-            // Default to customer if role not set
             String role = (user.getRole() == null || user.getRole().isBlank()) ? "customer" : user.getRole();
             stmt.setString(3, role);
 
