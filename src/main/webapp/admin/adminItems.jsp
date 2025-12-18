@@ -1,29 +1,34 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ page import="org.example.webstore.bo.User" %>
+<%@ page session="true" %>
+
+<%@ page import="java.util.List" %>
+<%@ page import="org.example.webstore.ui.dto.UserInfoDTO" %>
 <%@ page import="org.example.webstore.ui.dto.ItemInfoDTO" %>
+
+<%
+    UserInfoDTO logged = (UserInfoDTO) session.getAttribute("user");
+    if (logged == null || !logged.isAdmin()) {
+        response.sendRedirect(request.getContextPath() + "/customer/login.jsp");
+        return;
+    }
+
+    List<ItemInfoDTO> items = (List<ItemInfoDTO>) request.getAttribute("items");
+%>
+
 <html>
 <head>
     <title>Admin Product Management</title>
 </head>
 <body>
 
-<%
-    User logged = (User) session.getAttribute("user");
-    if (logged == null || !logged.isAdmin()) {
-        response.sendRedirect("/webstore/customer/login.jsp");
-        return;
-    }
-%>
-
 <h2>Manage Products</h2>
 
-<button type="button" onclick="window.location.href='/webstore/items?categoryId=1'">
+<button type="button" onclick="window.location.href='<%=request.getContextPath()%>/items?categoryId=1'">
     Go Back to Webshop
 </button>
 <br><br>
 
-
-<a href="/webstore/admin/addItem.jsp">Add New Product</a><br><br>
+<a href="<%=request.getContextPath()%>/admin/addItem.jsp">Add New Product</a><br><br>
 
 <table border="1" cellpadding="8">
     <tr>
@@ -34,9 +39,6 @@
     </tr>
 
     <%
-        java.util.List<ItemInfoDTO> items =
-                (java.util.List<ItemInfoDTO>) request.getAttribute("items");
-
         if (items != null) {
             for (ItemInfoDTO item : items) {
     %>
@@ -45,8 +47,8 @@
         <td><%= item.getDescription() %></td>
         <td><%= item.getPrice() %> €</td>
         <td>
-            <a href="/webstore/admin/editItem?id=<%=item.getId()%>">Edit</a> |
-            <a href="/webstore/admin/deleteItem?id=<%=item.getId()%>">Delete</a>
+            <a href="<%=request.getContextPath()%>/admin/editItem?id=<%= item.getId() %>">Edit</a> |
+            <a href="<%=request.getContextPath()%>/admin/deleteItem?id=<%= item.getId() %>">Delete</a>
         </td>
     </tr>
     <%

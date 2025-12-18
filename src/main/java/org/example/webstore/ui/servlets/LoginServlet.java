@@ -6,13 +6,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.webstore.bo.User;
-import org.example.webstore.db.UserDB;
+import org.example.webstore.bo.UserHandler;
+import org.example.webstore.ui.dto.UserInfoDTO;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
 
-    private UserDB userDB = new UserDB();
+    private final UserHandler userHandler = new UserHandler();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -21,24 +23,28 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        User user = userDB.getUser(username, password);
+        try {
+            User user = userHandler.authenticateUser(username, password);
 
-        if (user != null) {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", user);
+            if (user != null) {
+                HttpSession session = req.getSession();
 
-            if ("admin".equalsIgnoreCase(user.getRole())) {
-                resp.sendRedirect(req.getContextPath() + "/admin/items");
-            } else {
-                resp.sendRedirect(req.getContextPath() + "/items?categoryId=1");
+                UserInfoDTO userDTO = new UserInfoDTO(user.getId(), user.getUsername(), user.getRole());
+                session.setAttribute("user", userDTO);
+
+                if ("admin".equalsIgnoreCase(user.getRole())) {
+                    resp.sendRedirect(req.getContextPath() + "/admin/items");
+                } else {
+                    resp.sendRedirect(req.getContextPath() + "/items?categoryId=1");
+                }
+                return;
             }
 
-        } else {
             req.setAttribute("error", "Invalid username or password");
             req.getRequestDispatcher("/customer/login.jsp").forward(req, resp);
+
+        } catch (SQLException e) {
+            throw new ServletException(e);
         }
     }
 }
-
-
-

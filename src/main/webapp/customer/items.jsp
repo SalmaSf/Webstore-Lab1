@@ -57,14 +57,12 @@
         </a>
     </div>
 
-
-
     <hr>
     <h3>Account</h3>
 
     <%
-        org.example.webstore.bo.User loggedUser =
-                (org.example.webstore.bo.User) session.getAttribute("user");
+        org.example.webstore.ui.dto.UserInfoDTO loggedUser =
+                (org.example.webstore.ui.dto.UserInfoDTO) session.getAttribute("user");
     %>
 
     <% if (loggedUser == null) { %>
@@ -76,7 +74,7 @@
 
     <div class="category"><a href="/webstore/logout">Logout</a></div>
 
-    <% if (loggedUser.isAdmin()) { %>
+    <% if ("admin".equalsIgnoreCase(loggedUser.getRole())) { %>
     <hr>
     <h3>Admin</h3>
     <div class="category"><a href="/webstore/admin/items">Manage Products</a></div>
@@ -84,9 +82,7 @@
 
     <% } %>
 
-
 </div>
-
 
 <div class="content">
     <h2>Product List</h2>

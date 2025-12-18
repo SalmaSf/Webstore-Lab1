@@ -3,7 +3,9 @@ package org.example.webstore.ui.servlets;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import org.example.webstore.bo.UserHandler;
+
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class RegisterServlet extends HttpServlet {
 
@@ -16,12 +18,11 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        boolean created = handler.registerUser(username, password);
-
-        if (created) {
+        try {
+            handler.registerUser(username, password);
             request.setAttribute("success", "Account created! Please log in.");
-        } else {
-            request.setAttribute("error", "Username already exists!");
+        } catch (SQLException e) {
+            request.setAttribute("error", e.getMessage());
         }
 
         request.getRequestDispatcher("/customer/register.jsp").forward(request, response);

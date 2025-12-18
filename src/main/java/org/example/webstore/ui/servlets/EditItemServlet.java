@@ -1,10 +1,13 @@
 package org.example.webstore.ui.servlets;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
-import org.example.webstore.bo.ItemHandler;
-import org.example.webstore.bo.User;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.webstore.bo.Item;
+import org.example.webstore.bo.ItemHandler;
+import org.example.webstore.ui.dto.UserInfoDTO;
 
 import java.io.IOException;
 
@@ -12,14 +15,19 @@ public class EditItemServlet extends HttpServlet {
 
     private final ItemHandler handler = new ItemHandler();
 
+    private boolean isAdmin(HttpSession session) {
+        if (session == null) return false;
+        UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
+        return user != null && "admin".equalsIgnoreCase(user.getRole());
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null ||
-                !((User) session.getAttribute("user")).isAdmin()) {
-            response.sendRedirect("/webstore/customer/login.jsp");
+        if (!isAdmin(session)) {
+            response.sendRedirect(request.getContextPath() + "/customer/login.jsp");
             return;
         }
 
@@ -35,9 +43,8 @@ public class EditItemServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null ||
-                !((User) session.getAttribute("user")).isAdmin()) {
-            response.sendRedirect("/webstore/customer/login.jsp");
+        if (!isAdmin(session)) {
+            response.sendRedirect(request.getContextPath() + "/customer/login.jsp");
             return;
         }
 
@@ -48,6 +55,6 @@ public class EditItemServlet extends HttpServlet {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
         handler.updateItem(id, name, description, price, categoryId);
-        response.sendRedirect("/webstore/admin/items");
+        response.sendRedirect(request.getContextPath() + "/admin/items");
     }
 }

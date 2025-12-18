@@ -26,7 +26,7 @@ public class ItemHandler {
         return itemInfoList;
     }
     public ItemInfoDTO getItemDetails(int itemId) {
-        Item item = itemDB.getItemById(itemId);
+        Item item = itemDB.getItemById(itemId); //no acesss
 
         if (item == null) {
             return null;

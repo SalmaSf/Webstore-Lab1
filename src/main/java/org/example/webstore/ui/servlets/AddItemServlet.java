@@ -1,9 +1,13 @@
 package org.example.webstore.ui.servlets;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.example.webstore.bo.ItemHandler;
-import org.example.webstore.bo.User;
+import org.example.webstore.ui.dto.UserInfoDTO;
+
 import java.io.IOException;
 
 public class AddItemServlet extends HttpServlet {
@@ -15,10 +19,14 @@ public class AddItemServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null ||
-                !((User) session.getAttribute("user")).isAdmin()) {
+        if (session == null) {
+            response.sendRedirect(request.getContextPath() + "/customer/login.jsp");
+            return;
+        }
 
-            response.sendRedirect("/webstore/customer/login.jsp");
+        UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
+        if (user == null || !"admin".equalsIgnoreCase(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/customer/login.jsp");
             return;
         }
 
@@ -28,6 +36,6 @@ public class AddItemServlet extends HttpServlet {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
         handler.addItem(name, description, price, categoryId);
-        response.sendRedirect("/webstore/admin/items");
+        response.sendRedirect(request.getContextPath() + "/admin/items");
     }
 }

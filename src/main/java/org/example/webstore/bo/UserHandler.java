@@ -1,26 +1,31 @@
 package org.example.webstore.bo;
 
-import org.example.webstore.db.UserDB;
+import java.sql.SQLException;
 
 public class UserHandler {
 
-    private final UserDB userDB = new UserDB();
-
-    public User authenticate(String username, String password) {
-        User user = userDB.getUserByUsername(username);
-
-        if (user != null && user.getPassword().equals(password)) {
+    public User authenticateUser(String username, String password) throws SQLException {
+        User user = User.getUserByUsername(username);
+        if (user != null && user.authenticate(password)) {
             return user;
         }
-
         return null;
     }
 
-    public boolean registerUser(String username, String password) {
-        if (userDB.getUserByUsername(username) != null) {
-            return false; // Username already exists
+    public void registerUser(String username, String password) throws SQLException {
+        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+            throw new SQLException("Username or password missing.");
         }
-        return userDB.addUser(username, password);
+
+        if (User.userExists(username)) {
+            throw new SQLException("Username already exists.");
+        }
+
+        User newUser = new User(username, password, "customer");
+        newUser.save();
     }
 
+    public User getUserByUsername(String username) throws SQLException {
+        return User.getUserByUsername(username);
+    }
 }
