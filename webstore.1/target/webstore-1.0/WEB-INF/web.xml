@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+         https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0">
+
+    <!-- Product list servlet -->
+    <servlet>
+        <servlet-name>ItemServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.ItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ItemServlet</servlet-name>
+        <url-pattern>/items</url-pattern>
+    </servlet-mapping>
+
+    <!-- Product details servlet -->
+    <servlet>
+        <servlet-name>ItemDetailsServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.ItemDetailsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ItemDetailsServlet</servlet-name>
+        <url-pattern>/itemDetails</url-pattern>
+    </servlet-mapping>
+
+    <!-- Add To Cart -->
+    <servlet>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.AddToCartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddToCartServlet</servlet-name>
+        <url-pattern>/addToCart</url-pattern>
+    </servlet-mapping>
+
+    <!-- View Cart -->
+    <servlet>
+        <servlet-name>CartServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.CartServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.LogoutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.RegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AdminItemServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.AdminItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AdminItemServlet</servlet-name>
+        <url-pattern>/admin/items</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddItemServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.AddItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddItemServlet</servlet-name>
+        <url-pattern>/admin/addItem</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditItemServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.EditItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditItemServlet</servlet-name>
+        <url-pattern>/admin/editItem</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteItemServlet</servlet-name>
+        <servlet-class>org.example.webstore.ui.servlets.DeleteItemServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DeleteItemServlet</servlet-name>
+        <url-pattern>/admin/deleteItem</url-pattern>
+    </servlet-mapping>
+
+
+
+
+</web-app>
+
