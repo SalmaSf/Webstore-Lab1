@@ -46,13 +46,6 @@ This structure helps keep the application organized and easier to maintain.
 
 Project Structure
 
-Typical components of the project include:
-
-Controllers – Handle incoming requests and application logic
-
-Models – Define data structures used by the application
-
-Views – User interface templates
 
 Configuration files for the web application
 
